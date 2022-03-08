@@ -30,7 +30,7 @@ const superHeros = [
       "https://aws.vdkimg.com/film/2/5/1/1/251170_backdrop_scale_1280xauto.jpg",
   },
 ];
-app.use((_req, _res, next) => {
+app.use((req, _res, next) => {
   console.log("ceci est un middleware");
   next();
 });
@@ -66,10 +66,20 @@ app.get("/heroes/:name/powers", (req, res) => {
   res.send(heroName().power);
 });
 
-app.post("/heroes", (req, _res, next) => {
+app.post("/heroes", (req, res, next) => {
   req.body.name = req.body.name.toLowerCase();
+
+  const checkHero = () =>
+    superHeros.find((hero) => {
+      return req.body.name === hero.name;
+    });
+
   console.log(req.body.name);
-  next();
+  if (!checkHero()) {
+    next();
+  } else {
+    res.send("error this super hero already exists");
+  }
 });
 app.post("/heroes", (req, res) => {
   superHeros.push(req.body);
