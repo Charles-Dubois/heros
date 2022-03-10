@@ -30,7 +30,7 @@ const superHeros = [
       "https://aws.vdkimg.com/film/2/5/1/1/251170_backdrop_scale_1280xauto.jpg",
   },
 ];
-app.use((req, _res, next) => {
+app.use((_req, _res, next) => {
   console.log("ceci est un middleware");
   next();
 });
@@ -50,12 +50,20 @@ app.get("/heroes", (req, res) => {
   }
 });
 
-app.get("/heroes/:name", (req, res) => {
+app.get("c", (req, res) => {
   const heroName = () =>
     superHeros.find((hero) => {
       return hero.name === req.params.name;
     });
   res.send(heroName());
+});
+app.delete("/heroes/:name", (req, res) => {
+  const heroName = () =>
+    superHeros.find((hero) => {
+      return hero.name === req.params.name;
+    });
+
+  res.send(heroName);
 });
 
 app.get("/heroes/:name/powers", (req, res) => {
